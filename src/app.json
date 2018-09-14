@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/logs/main",
+    "pages/question/main",
+    "pages/answer/main",
+    "pages/result/main",
+    "pages/counter/main"
+
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "股神灾民段位认证",
+    "navigationBarTextStyle": "black"
+  }
+}
