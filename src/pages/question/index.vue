@@ -1,8 +1,8 @@
 <template>
   <div class='container'>
-        <img src="/static/img/answer-bg.png" alt="" mode="widthFix" class="question-bg">
-        <div class="head"><img class="head-bg" src="/static/img/head.png" alt="" mode="widthFix"></div>
-        <div v-for='(item,index) in questionList' :key='index' class="list" :style="{'z-index':item.position,'left':item.left}" :animation='animation'>
+        <img v-if='url' :src="url+'answer-bg.png'" alt="" mode="widthFix" class="question-bg">
+        <div class="head"><img v-if='url' class="head-bg" :src="url+'head.png'" alt="" mode="widthFix"></div>
+        <div v-for='(item,index) in questionList' :key='index' class="list" :style="{'z-index':item.position,'left':item.left}">
           <h3>{{item.question}}</h3>
           <ul>
               <li class="flex-box" v-for='(obj,i) in item.answerLists' :key='i' @click="selectAnswer(item,obj,index)">
@@ -24,6 +24,7 @@ import card from '@/components/card'
 export default {
   data () {
     return {
+      url: 'http://111.230.169.178/img/',
       questionList: [{
         question: '1、您入市实践的时间多长？',
         answerLists: [{answer: 'A、三个月以下', score: 1, src: '/static/img/default-check.png'}, {answer: 'B、半年左右', score: 2, src: '/static/img/default-check.png'}, {answer: 'C、一年以上', score: 3, src: '/static/img/default-check.png'}, {answer: 'D、两年以上', score: 4, src: '/static/img/default-check.png'}],
@@ -137,8 +138,8 @@ export default {
           star = i + 1
         }
       }
-      console.log(sum, star)
-      return star
+      const url = '../answer/main?star=' + star
+      wx.navigateTo({ url })
     }
   },
 
@@ -180,8 +181,8 @@ export default {
         transition: left .5s;
     }
     .list ul li{
-        height: 76rpx;
-        line-height: 76rpx;
+        height: 90rpx;
+        line-height: 90rpx;
         margin-top: 42rpx;
         background: #f9eff0;
         border-radius: 8rpx;
@@ -194,7 +195,7 @@ export default {
     }
     .list ul li img{
         width: 46rpx;
-        margin-top: 16rpx;
+        margin-top: 22rpx;
     }
     .pre{
         width: 276rpx;

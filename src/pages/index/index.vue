@@ -1,11 +1,11 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
-    <img src="/static/img/index-bg.png" alt="" mode="widthFix" class="index-bg">
+    <img v-if='url' :src="url+'index-bg.png'" alt="" mode="widthFix" class="index-bg">
     <div class="main-content">
-        <div class="logo flex-box center"><img src="/static/img/logo.png" alt="" mode="widthFix"></div>
-        <div class="theme flex-box center"><img src="/static/img/theme-index.png" mode="widthFix" alt=""></div>
+        <div class="logo flex-box center"><img v-if='url' :src="url+'logo.png'" alt="" mode="widthFix"></div>
+        <div class="theme flex-box center"><img v-if='url' :src="url+'theme-index.png'" mode="widthFix" alt=""></div>
         <div class="text-content flex-box center">
-            <div><img src="/static/img/ball-index.png" mode="widthFix" alt=""></div>
+            <div><img v-if='url' :src="url+'ball-index.png'" mode="widthFix" alt=""></div>
         </div>
         <div class="text">
             A股是最磨练意志力的地方，没有之一！十年炒股两茫茫，先亏车，后赔房，在这场股市灾害中，
@@ -22,7 +22,7 @@ import card from '@/components/card'
 export default {
   data () {
     return {
-      motto: 'Hello World',
+      url: 'http://111.230.169.178/img/',
       userInfo: {}
     }
   },
@@ -34,7 +34,8 @@ export default {
   methods: {
     toTest () {
       // const url = '../question/main'
-      const url = '../answer/main'
+      // const url = '../answer/main?star=5'
+      const url = '../result/main'
       wx.navigateTo({ url })
     },
     getUserInfo () {
@@ -99,6 +100,7 @@ export default {
     text-indent: 2em;
     padding-top: 54rpx;
     padding-left: 40rpx;
+    padding-right: 20rpx;
     font-size: 30rpx;
     line-height: 48rpx;
     box-shadow: 0 0 7px 1px rgba(202,202,202,0.50);
@@ -112,6 +114,7 @@ export default {
 .to-test{
     width: 500rpx;
     height: 88rpx;
+    line-height: 88rpx;
     margin-top: 50px;
     background: #c82222;
     color: white

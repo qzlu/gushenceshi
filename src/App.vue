@@ -22,12 +22,13 @@ page{
     justify-content: center
 }
 .container {
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  background:#fff5da;
 }
 /* this rule will be remove */
 * {
