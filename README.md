@@ -1,7 +1,7 @@
 # jiucai
 
 > A Mpvue project
-
+这是一个股票段位测试小程序
 ## Build Setup
 
 ``` bash
