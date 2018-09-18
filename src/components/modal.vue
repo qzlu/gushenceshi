@@ -10,7 +10,8 @@
               {{text}}
           </div>
           <div class="footer">
-              <button @click="confirm">{{btnText}}</button>
+              <button @click="confirm" v-if="btnText">{{btnText}}</button>
+              <button v-if="getPhone" open-type="getPhoneNumber"  @getphonenumber="getPhoneNumber">确认并查看答案</button>
           </div>
       </div>
   </div>
@@ -25,12 +26,16 @@ export default {
       title3: String,
       imgUrl: String,
       text: String,
-      btnText:String
+      btnText:String,
+      getPhone:Boolean
   },
   methods:{
-      confirm(){
-          this.$emit("confirm")
-      }
+    confirm(){
+        this.$emit("confirm")
+    },
+    getPhoneNumber (e) {
+        this.$emit('getPhone',e)
+    },
   }
 }
 </script>

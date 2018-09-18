@@ -5,7 +5,7 @@ var conf = {
   appid: 'wx16ce2f6e06acd4d5',
   // 神策分析数据接收地址
   server_url: 'https://scjdk.simuwang.com/prod/sa?project=production',
-  // server_url:'https://test-syg.datasink.sensorsdata.cn/sa.gif?project=xubo&token=27f1e21b78daf376',
+  //server_url:'https://test-syg.datasink.sensorsdata.cn/sa.gif?project=xubo&token=27f1e21b78daf376',
   //请求发送超时时间
   send_timeout: 1000,
   // 传入的字符串最大长度限制，防止未知字符串超长

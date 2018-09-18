@@ -1,7 +1,7 @@
 <template>
   <div class="container" >
     <div class="main" v-if="!finish">
-      <img v-if="url" :src="url+'loading-bg.png'" alt="" mode="widthFix" class="question-bg">
+      <img v-if="url" :src="url+'loading-bg.jpg'" alt="" mode="widthFix" class="question-bg">
       <div class="loading-content">
           <div class="loading"></div>
       </div>
@@ -39,12 +39,12 @@
       </div>
       <img mode="widthFix" :src="url+'footer.png'" alt="" style="width:100%;margin-top:-20rpx">
     </div>
-    <my-modal :showModal="readAswer" :title1="title1" :title2="title2" :title3="title3" :text="text" :btnText="btnText" @confirm="confirm"></my-modal>
+    <my-modal :showModal="readAswer" :title1="title1" :title2="title2" :title3="title3" :text="text" getPhone="true" @getPhone="getPhoneNumber"></my-modal>
     <my-modal :showModal="showSaveImg" :title1="saveImgTitle1" :title2="saveImgTitle2" :imgUrl="saveImgUrl" :btnText="saveImgBtnText" @confirm="showSaveImg=false"></my-modal>
-    <modal :hidden="login" title="微信手机号授权" cancel-text="取消" confirm-text="确认授权" @confirm="authorize" @cancel="cancel">
+    <!-- <modal :hidden="login" title="微信手机号授权" cancel-text="取消" confirm-text="确认授权" @confirm="authorize" @cancel="cancel">
         <div class="logo"><img mode="widthFix" src="/static/img/logo-app.jpg" /></div>
         <p class="logo-text">私募排排网</p>
-    </modal>
+    </modal> -->
     <!-- <canvas canvas-id="mycanvas" style="width: 375px;height: 2030rpx;position:fixed;top:9999px" ></canvas> -->
     <canvas canvas-id="myCanvas" :style="{width:width+'px',height:canvasHeight+'px',position:'fixed',top:'9999px'}" ></canvas>
   </div>
@@ -56,7 +56,7 @@ import myModal from '@/components/modal'
 export default {
   data () {
     return {
-      url: 'http://111.230.169.178/img/',
+      url: 'https://weixin-test.simuwang.com/Public/Image/Weixin/201810/',
       width: null, // 手机宽度
       canvasHeight: null, // 设置canvas高度
       tempFilePath: null, // 生成图片的地址
@@ -80,31 +80,31 @@ export default {
       saveImgBtnText: '我知道了',
       levelArr: [
         {
-          bgImg: 'one-star.png',
+          bgImg: 'one-star.jpg',
           level: '初级韭菜',
           paipai: '年轻人，还需要历练哦！',
           text: '要买什么股票，什么时候卖,你自己完全懵逼。拿着股票总感觉不踏实，所以交易频繁，时赚时亏，总的来说，账户是亏损的。你还在学习抄底阶段，经常抄在地板上，没想到还有地下室，抄在地下室，没想到还有地窖，抄在地窖，没想到还有地狱，抄死抄到地狱里，结果死也没想到地狱真的有十八层！'
         },
         {
-          bgImg: 'two-star.png',
+          bgImg: 'two-star.jpg',
           level: '资深韭菜',
           paipai: '别说了，关灯吧！',
           text: '满仓套牢时的抑郁，空仓等底时的着急，轻仓试探时的迷茫，让你开始怀疑人生。你经常感觉自己是传说中的主力监控，一卖就涨，一买就跌，一进场就千股跌停！在你这里，只有四只股票涨的最好：一是别人买的股票，二是自己刚刚卖掉股票，三看好想买却没买的股票，四打了单没买上的股票！人生很艰难，且行且珍惜！'
         },
         {
-          bgImg: 'three-star.png',
+          bgImg: 'three-star.jpg',
           level: '韭菜战斗机',
           paipai: '梦想总是要有，万一实现了呢！',
           text: '你是韭菜中的绝对王者，在韭菜中绝对无敌的存在。你和所有韭菜都能找到共同话题，所有的韭菜都能轻而易举的成为你的知己。你钟爱满仓，总是情不自禁一次性或分批次将所有资金投入到股市中。股市虐你千百遍，你待股市如初恋。你认为A股的快乐在于受虐的变态美，你坚信只要坚持总会胜利'
         },
         {
-          bgImg: 'four-star.png',
+          bgImg: 'four-star.jpg',
           level: '韭坛神话',
           paipai: '大侠，离开A股何以悟人生！',
           text: '北上广不相信眼泪，黑吉辽不相信喝醉，江浙沪晒不干棉被，全国股民应自觉组团互相安慰。慢慢的你发现，世界那么大，除了股市之外，还有更多美好值得我们去享受。最重要的是，这个世界上肯定还有比你还惨的人！'
         },
         {
-          bgImg: 'five-star.png',
+          bgImg: 'five-star.jpg',
           level: '股海大神',
           paipai: '无需多言，膜拜大神！',
           text: '厉害了，想必你在股市已见惯风雨，波澜不惊。已经做到不以涨喜，不以跌悲，手中有股，心中无股！你深知，在A股混，必须练就大心脏，没必要动不动伤春悲秋。毕竟冬寒已经过去一半！还有一半！你是如此淡定，只是有时睡梦中惊醒，眼角是湿的。'
@@ -130,14 +130,12 @@ export default {
         success: (obj) => {
           wx.getUserInfo({
             success: (res) => {
-              console.log(res)
               this.userInfo = res.userInfo
               wx.downloadFile({
                 url: res.userInfo.avatarUrl,
                 success: function (json) {
                   if (json.statusCode === 200) {
                     _this.userUrl = json.tempFilePath
-                    console.log(json)
                   }
                 }
               })
@@ -153,9 +151,28 @@ export default {
       this.readAswer = true
     },
     getPhoneNumber (e) {
-      console.log(e.detail.errMsg)
-      console.log(e.detail.iv)
-      console.log(e.detail.encryptedData)
+      this.readAswer = false
+      wx.getStorage({
+        key: 'sign',
+        success: function(res) {
+            wx.request({
+                url: 'https://weixin-test.simuwang.com/gateway/verifyWXUser',
+                data: {
+                  encryptedData: e.mp.detail.encryptedData,
+                  iv:e.mp.detail.iv,
+                  sign:res.data
+                },
+                success:function (params) {
+                },
+                fail: function (err) {
+                }
+            })
+        } 
+      })
+      const url = '../answer/main'
+      if(e.mp.detail.encryptedData !==undefined){
+        wx.navigateTo({ url })
+      }
     },
     /**
      * 确定同意私募基金协议
@@ -180,7 +197,6 @@ export default {
       var _this = this
       wx.getSystemInfo({
         success: function (res) {
-          console.log(res.windowWidth)
           _this.width = res.windowWidth
           _this.canvasHeight = _this.width / 375 * 1015
         }
@@ -198,7 +214,18 @@ export default {
         success: function (json) {
           if (json.statusCode === 200) {
             let path = json.tempFilePath
-            console.log(json)
+            _this.finish = true
+            wx.setNavigationBarTitle({
+            title: '测试结果'
+            })
+            wx.setNavigationBarColor({
+                frontColor: '#000000',
+                backgroundColor: '#c4e9ef',
+                animation: {
+                    duration: 400,
+                    timingFunc: 'easeIn'
+                }
+            })
             _this.creatImg(path)
           }
         }
@@ -244,11 +271,9 @@ export default {
       wx.saveImageToPhotosAlbum({
         filePath: that.tempFilePath,
         success (res) {
-          console.log('保存成功', res)
           that.showSaveImg = true
         },
         fail: function (res) {
-          console.log(res)
         }
       })
     },
@@ -263,7 +288,6 @@ export default {
           canvasId: 'myCanvas',
           success: function (res) {
             _this.tempFilePath = res.tempFilePath
-            console.log(_this.tempFilePath, res)
             _this.saveImgToPhone()
           },
           fail: function (res) {
@@ -289,14 +313,11 @@ export default {
   onShareAppMessage (res) {
     return {
       title: '这是我的投资测试结果，你也来测下属于你的段位吧',
-      path: 'pages/share/main?utm_source=20005&star='+this.star+'&avatarUrl='+this.userInfo.avatarUrl+'&nickName='+this.userInfo.nickName
+      path: 'pages/share/main?utm_source=20005&utm_platform=xcx&star='+this.star+'&avatarUrl='+this.userInfo.avatarUrl+'&nickName='+this.userInfo.nickName
     }
   },
   mounted () {
     this.downloadImg()
-    setTimeout(() => {
-      this.finish = true
-    }, 2000)
   }
 }
 </script>

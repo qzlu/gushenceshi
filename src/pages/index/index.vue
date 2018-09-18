@@ -1,6 +1,6 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-    <img v-if='url' :src="url+'index-bg.png'" alt="" mode="widthFix" class="index-bg">
+  <div class="container">
+    <img v-if='url' :src="url+'index-bg.jpg'" alt="" mode="widthFix" class="index-bg">
     <div class="main-content">
         <div class="logo flex-box center"><img v-if='url' :src="url+'logo.png'" alt="" mode="widthFix"></div>
         <div class="theme flex-box center"><img v-if='url' :src="url+'theme-index.png'" mode="widthFix" alt=""></div>
@@ -12,7 +12,6 @@
             <h3>你究竟处于那个段位？</h3>
         </div>
        <button class="to-test" @click="toTest()">我来测测</button>
-       <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber"> 获取手机号</button> 
     </div>
   </div>
 </template>
@@ -23,7 +22,7 @@ const app = getApp()
 export default {
   data () {
     return {
-      url: 'http://111.230.169.178/img/',
+      url: 'https://weixin-test.simuwang.com/Public/Image/Weixin/201810/',
       userInfo: {}
     }
   },
@@ -34,13 +33,10 @@ export default {
 
   methods: {
     toTest () {
-      app.sensors.track('toTest',{
-          test:'1'
-      })
-      // const url = '../question/main'
+      const url = '../question/main'
       // const url = '../answer/main'
-      const url = '../result/main?star=1'
-      // const url = '../share/main?star=5&avatarUrl=https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI6pHCb8iayyGRJIrj3hz5vONuU2icbXQgE6HRf8tkPuTNX4lrRRGuL4o7VpIBkiayGxj16dcEj6de7g/132&nickName=LQZ'
+      // const url = '../result/main?star=3'
+      // const url = '../share/main?star=0&avatarUrl=https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI6pHCb8iayyGRJIrj3hz5vONuU2icbXQgE6HRf8tkPuTNX4lrRRGuL4o7VpIBkiayGxj16dcEj6de7g/132&nickName=LQZ'
       wx.navigateTo({ url })
     },
     getUserInfo () {
@@ -57,19 +53,16 @@ export default {
             data: {
               code: obj.code
             },
-            function (params) {
-              console.log('2222222',params)
+            success: function (params) {
+              wx.setStorage({
+                key:"sign",
+                data:params.data.sign
+              })
             }
           })
         }
       })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
-    },
-    getPhoneNumber: function(e) { 
-	  console.log(e) 
-	} 
+    }
   },
 
   created () {

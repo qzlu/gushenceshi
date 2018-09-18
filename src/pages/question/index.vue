@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-        <img v-if='url' :src="url+'answer-bg.png'" alt="" mode="widthFix" class="question-bg">
+        <img v-if='url' :src="url+'quetion-bg.jpg'" alt="" mode="widthFix" class="question-bg">
         <div class="head"><img v-if='url' class="head-bg" :src="url+'head.png'" alt="" mode="widthFix"></div>
         <div v-for='(item,index) in questionList' :key='index' class="list" :style="{'z-index':item.position,'left':item.left}">
           <h3>{{item.question}}</h3>
@@ -24,7 +24,7 @@ import card from '@/components/card'
 export default {
   data () {
     return {
-      url: 'http://111.230.169.178/img/',
+      url: 'https://weixin-test.simuwang.com/Public/Image/Weixin/201810/',
       questionList: [{
         question: '1、您入市实践的时间多长？',
         answerLists: [{answer: 'A、三个月以下', score: 1, src: '/static/img/default-check.png'}, {answer: 'B、半年左右', score: 2, src: '/static/img/default-check.png'}, {answer: 'C、一年以上', score: 3, src: '/static/img/default-check.png'}, {answer: 'D、两年以上', score: 4, src: '/static/img/default-check.png'}],
@@ -138,7 +138,7 @@ export default {
           star = i + 1
         }
       }
-      const url = '../answer/main?star=' + star
+      const url = '../result/main?star=' + star
       wx.navigateTo({ url })
     }
   },
@@ -177,7 +177,7 @@ export default {
         padding-top: 46rpx;
         padding-left: 36rpx;
         padding-right: 36rpx;
-        box-shadow: 0 0 7px 1px rgba(202,202,202,0.50);
+        /* box-shadow: 0 0 7px 1px rgba(202,202,202,0.50); */
         transition: left .5s;
     }
     .list ul li{
