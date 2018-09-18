@@ -5,6 +5,7 @@
     "pages/question/main",
     "pages/answer/main",
     "pages/result/main",
+    "pages/share/main",
     "pages/counter/main"
 
   ],

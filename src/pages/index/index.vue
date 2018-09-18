@@ -12,13 +12,14 @@
             <h3>你究竟处于那个段位？</h3>
         </div>
        <button class="to-test" @click="toTest()">我来测测</button>
+       <button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber"> 获取手机号</button> 
     </div>
   </div>
 </template>
 
 <script>
 import card from '@/components/card'
-
+const app = getApp()
 export default {
   data () {
     return {
@@ -33,18 +34,31 @@ export default {
 
   methods: {
     toTest () {
+      app.sensors.track('toTest',{
+          test:'1'
+      })
       // const url = '../question/main'
-      // const url = '../answer/main?star=5'
-      const url = '../result/main'
+      // const url = '../answer/main'
+      const url = '../result/main?star=1'
+      // const url = '../share/main?star=5&avatarUrl=https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI6pHCb8iayyGRJIrj3hz5vONuU2icbXQgE6HRf8tkPuTNX4lrRRGuL4o7VpIBkiayGxj16dcEj6de7g/132&nickName=LQZ'
       wx.navigateTo({ url })
     },
     getUserInfo () {
       // 调用登录接口
       wx.login({
-        success: () => {
+        success: (obj) => {
           wx.getUserInfo({
             success: (res) => {
               this.userInfo = res.userInfo
+            }
+          })
+          wx.request({
+            url: 'https://weixin-test.simuwang.com/gateway/wxLogin',
+            data: {
+              code: obj.code
+            },
+            function (params) {
+              console.log('2222222',params)
             }
           })
         }
@@ -52,7 +66,10 @@ export default {
     },
     clickHandle (msg, ev) {
       console.log('clickHandle:', msg, ev)
-    }
+    },
+    getPhoneNumber: function(e) { 
+	  console.log(e) 
+	} 
   },
 
   created () {
