@@ -2,11 +2,12 @@
   <div>
       <div class="modal-mask" v-if="showModal"></div>
       <div class="modal-dialog" v-if="showModal">
+          <div class="close" v-if="showCancle" @click="close()"></div>
           <h3>{{title1}}</h3>
           <h3>{{title2}}</h3>
-          <h3 v-if="title3">{{title3}}</h3>
           <div class="content">
               <img v-if="imgUrl" :src="imgUrl" alt="">
+              <h3 v-if="title3">{{title3}}</h3>
               {{text}}
           </div>
           <div class="footer">
@@ -27,7 +28,8 @@ export default {
       imgUrl: String,
       text: String,
       btnText:String,
-      getPhone:Boolean
+      getPhone:Boolean,
+      showCancle:Boolean
   },
   methods:{
     confirm(){
@@ -36,6 +38,9 @@ export default {
     getPhoneNumber (e) {
         this.$emit('getPhone',e)
     },
+    close () {
+        this.$emit('close')
+    }
   }
 }
 </script>
@@ -55,7 +60,6 @@ export default {
 }
 .modal-dialog {
   width: 500rpx;
-  overflow: hidden;
   position: fixed;
   top: 50%;
   left: 0;
@@ -89,5 +93,15 @@ export default {
     background: #c42220;
     margin: 40rpx auto;
     letter-spacing: 4rpx;
+}
+.close{
+    position: absolute;
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 50%;
+    background:url('https://weixin-test.simuwang.com/Public/Image/Weixin/201810/close.png') center no-repeat;
+    background-size: 50rpx;
+    top: -54rpx;
+    right: 0rpx;
 }
 </style>

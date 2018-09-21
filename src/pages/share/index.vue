@@ -18,11 +18,11 @@
               <p class="paipaijun">排排君赠言：{{levelArr[star].paipai}}</p>
             </div>
             <div class="flex-box">
-              <button class="save-img" @click="goIndex">我也要测测</button>
+              <button :class="{'save-img':true,'margin-top':star==3}"  @click="goIndex">{{text}}</button>
             </div>
           </div>
       </div>
-      <img mode="widthFix" v-if="url" :src="url+'footer.png'" alt="" style="width:100%;margin-top:-20rpx">
+      <img mode="widthFix" v-if="url" :src="url+'footer.png'" alt="" style="width:100%;margin-top:-100px;margin-bottom:-5px;">
     </div>
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
       star: null,
       avatarUrl: '', // 头像
       nickName: '', // 用户名
+      text: '我也要测测',
       levelArr: [
         {
           bgImg: 'one-star.jpg',
@@ -74,6 +75,16 @@ export default {
   },
 
   methods: {
+    getUserInfo () {
+      var _this = this
+      wx.getUserInfo({
+        success: (res) => {
+          if (this.avatarUrl === res.userInfo.avatarUrl) {
+              this.text = '再测一次'
+          }
+        }
+      })
+    },
     goIndex () {
       const url = '../index/main'
       wx.navigateTo({ url })
@@ -86,6 +97,7 @@ export default {
     this.star = option.star
     this.avatarUrl = option.avatarUrl
     this.nickName = option.nickName
+    this.getUserInfo()
   },
   mounted () {
   }
@@ -100,31 +112,33 @@ export default {
     }
     .result-bg{
       width: 100%;
-      height: 1700rpx !important;
     }
     .result{
       position: absolute;
-      top:734rpx;
+      width: 100%;
+      top:850rpx;
       text-align: center
     }
     .dashed-border{
       position:absolute;
-      width:652rpx;
-      height:822rpx;
-      border:4rpx dashed #fff3f3;
-      border-radius: 20rpx;
-      left:44rpx;
-      top:64rpx;
+      width:654rpx;
+      height:854rpx;
+      border:2rpx dashed #fff3f3;
+      border-radius:20rpx;
+      left:-8rpx;
+      top:-8rpx;
     }
     .result-text-content{
+      position: relative;;
       width: 670rpx;
-      height: 840rpx;
+      height: 870rpx;
       border: 14rpx solid #e1524c;
+      text-align: center;
       border-radius: 20rpx;
       box-sizing: border-box;
       margin-left:40rpx;
       margin-top: -76rpx;
-      padding: 34rpx;
+      padding: 27rpx;
     }
     .userinfo-avatar {
       width: 114rpx;
@@ -140,18 +154,17 @@ export default {
       color:black;
       text-align: center;
       padding-top: 42rpx;
-      margin-left:-50rpx
     }
     .result-text{
       font-size: 28rpx;
-      text-align: left
+      text-align: left;
+      line-height: 50rpx;
     }
     .level{
       height: 160rpx;
       line-height: 160rpx;
       background: url('http://111.230.169.178/img/leval-bg.png') center no-repeat;
       background-size: 220rpx;
-      margin-left: -63rpx;
     }
     .paipaijun{
       margin: 20rpx 0;
@@ -160,53 +173,15 @@ export default {
     .result .flex-box{
       justify-content: center
     }
-    .save-img,.share{
+    .save-img{
+      width: 248rpx;
       height: 74rpx;
       line-height: 74rpx;
       border-radius: 40rpx;
       color: #ffffff;
-    }
-    .save-img{
-      width: 248rpx;
       background: #e22716
     }
-    .share{
-      width: 270rpx;
-      background: -moz-linear-gradient(#ea7c1a,#b93d21);
-      background: -webkit-linear-gradient(#ea7c1a,#b93d21);
-      background: -o-linear-gradient(#ea7c1a,#b93d21);
-    }
-    .read-answer{
-      width: 670rpx;
-      height: 380rpx;
-      border: 14rpx solid #e1524c;
-      border-radius: 20rpx;
-      box-sizing: border-box;
-      margin-left:40rpx;
-      margin-top: 40rpx;
-      padding: 34rpx;
-      position: relative;
-    }
-    .read-answer p{
-      font-size: 28rpx;
-      font-weight: bold;
-      line-height: 56rpx;
-    }
-    .read-answer button{
-      width: 500rpx;
-      height: 90rpx;
-      margin-top: 30rpx;
-      background: #c62221;
-      border-radius: 40rpx;
-      color: white;
-    }
-    .border{
-      position:absolute;
-      width:650rpx;
-      height:360rpx;
-      border:4rpx dashed #fff3f3;
-      border-radius:20rpx;
-      left:-8rpx;
-      top:-8rpx;
+    .margin-top{
+        margin-top: 74rpx;
     }
 </style>
