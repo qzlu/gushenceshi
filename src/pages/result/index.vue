@@ -13,7 +13,6 @@
       <div class="result">
           <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
           <div class="result-text-content">
-            <div class="dashed-border"></div>
             <div class="userinfo-nickname">
                 {{userInfo.nickName}}
             </div>
@@ -30,7 +29,6 @@
             </div>
           </div>
           <div class="read-answer">
-              <div class="border"></div>
               <p>A股神出鬼没的物种是什么？</p>
               <p>关灯吃面有什么样的典故？</p>
               <p>我国国民健康状况到底有多槽糕？</p>
@@ -399,25 +397,17 @@ export default {
       top:830rpx;
       text-align: center
     }
-    .dashed-border{
-      position:absolute;
-      width:654rpx;
-      height:854rpx;
-      border:2rpx dashed #fff3f3;
-      border-radius:20rpx;
-      left:-8rpx;
-      top:-8rpx;
-    }
     .result-text-content{
       position: relative;;
-      width: 670rpx;
-      height: 870rpx;
-      border: 14rpx solid #e1524c;
+      width: 656rpx;
+      height: 856rpx;
+      border:2rpx dashed #e1524c;
       border-radius: 20rpx;
       box-sizing: border-box;
-      margin-left:40rpx;
-      margin-top: -76rpx;
+      margin-left:47rpx;
+      margin-top: -70rpx;
       padding: 27rpx;
+      box-shadow: 0 0 0 7rpx #e1524c inset,0 0 0 7rpx #e1524c
     }
     .userinfo-avatar {
       width: 114rpx;
@@ -469,15 +459,16 @@ export default {
       background: -o-linear-gradient(#ea7c1a,#b93d21);
     }
     .read-answer{
-      width: 670rpx;
-      height: 380rpx;
-      border: 14rpx solid #e1524c;
+      width: 656rpx;
+      height: 366rpx;
+      border:2rpx dashed #e1524c;
       border-radius: 20rpx;
       box-sizing: border-box;
-      margin-left:40rpx;
-      margin-top: 40rpx;
+      margin-left:47rpx;
+      margin-top: 47rpx;
       padding: 34rpx;
       position: relative;
+      box-shadow: 0 0 0 7rpx #e1524c inset,0 0 0 7rpx #e1524c
     }
     .read-answer p{
       font-size: 28rpx;
@@ -492,15 +483,6 @@ export default {
       background:-webkit-linear-gradient(right,#dc3b3d,#b23329);
       border-radius: 40rpx;
       color: white;
-    }
-    .border{
-      position:absolute;
-      width:654rpx;
-      height:364rpx;
-      border:2rpx dashed #fff3f3;
-      border-radius:20rpx;
-      left:-8rpx;
-      top:-8rpx;
     }
     .title{
         text-align: center;

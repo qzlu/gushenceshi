@@ -5,7 +5,6 @@
       <div class="result">
           <img class="userinfo-avatar" v-if="avatarUrl" :src="avatarUrl" background-size="cover" />
           <div class="result-text-content">
-            <div class="dashed-border"></div>
             <div class="userinfo-nickname">
                 {{nickName}}
               <card :text="nickName"></card>
@@ -119,26 +118,18 @@ export default {
       top:850rpx;
       text-align: center
     }
-    .dashed-border{
-      position:absolute;
-      width:654rpx;
-      height:854rpx;
-      border:2rpx dashed #fff3f3;
-      border-radius:20rpx;
-      left:-8rpx;
-      top:-8rpx;
-    }
     .result-text-content{
       position: relative;;
-      width: 670rpx;
-      height: 870rpx;
-      border: 14rpx solid #e1524c;
+      width: 656rpx;
+      height: 856rpx;
+      border: 2rpx dashed #e1524c;
       text-align: center;
       border-radius: 20rpx;
       box-sizing: border-box;
-      margin-left:40rpx;
-      margin-top: -76rpx;
+      margin-left:47rpx;
+      margin-top: -70rpx;
       padding: 27rpx;
+      box-shadow: 0 0 0 7rpx #e1524c inset,0 0 0 7rpx #e1524c
     }
     .userinfo-avatar {
       width: 114rpx;

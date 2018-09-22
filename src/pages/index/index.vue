@@ -36,7 +36,7 @@ export default {
         const url = '../question/main'
         //const url = '../result/main?star=5'
         //const url = '../answer/main'
-        //const url = '../share/main?star=0&avatarUrl=https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI6pHCb8iayyGRJIrj3hz5vONuU2icbXQgE6HRf8tkPuTNX4lrRRGuL4o7VpIBkiayGxj16dcEj6de7g/132&nickName=LQZ'
+        // const url = '../share/main?star=0&avatarUrl=https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEI6pHCb8iayyGRJIrj3hz5vONuU2icbXQgE6HRf8tkPuTNX4lrRRGuL4o7VpIBkiayGxj16dcEj6de7g/132&nickName=LQZ'
         if (e.mp.detail.encryptedData!==undefined){
             wx.navigateTo({ url })
         }
