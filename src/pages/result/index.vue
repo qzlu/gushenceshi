@@ -8,7 +8,6 @@
       <div class="loading-text">组合大师分析中...</div>
     </div>
     <div class="main" v-if="finish">
-      <button open-type="getUserInfo" lang="zh_CN" style="visibility:hidden;position:absolute">获取用户信息</button>
       <img mode="widthFix" class="result-bg" :src="url+levelArr[star].bgImg" alt="">
       <div class="result">
           <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
@@ -32,12 +31,13 @@
               <p>A股神出鬼没的物种是什么？</p>
               <p>关灯吃面有什么样的典故？</p>
               <p>我国国民健康状况到底有多槽糕？</p>
-              <button @click="read">查看题目答案</button>
+              <button @click="goToAnswerPage">查看题目答案</button>
           </div>
       </div>
-      <img mode="widthFix" :src="url+'footer.png'" alt="" style="width:100%;margin-top:-130px;margin-bottom:-10px">
+      <img class="footer-img" mode="widthFix" :src="url+'footer.png'" alt="" >
     </div>
-    <my-modal :showModal="readAswer" :title1="title1" :title2="title2" :title3="title3" :text="text" showCancle="true" getPhone="true" @getPhone="getPhoneNumber" @close="readAswer=false"></my-modal>
+    <!-- <my-modal v-if="!hadGetPhone" :showModal="readAswer" :title1="title1" :title2="title2" :title3="title3" :text="text" showCancle="true" getPhone="true" @getPhone="getPhoneNumber" @close="readAswer=false"></my-modal>
+    <my-modal v-if="hadGetPhone" :showModal="readAswer" :title1="title1" :title2="title2" :title3="title3" :text="text" :btnText="'确认注册并查看答案'" showCancle="true" @confirm="goToAnswerPage"  @close="readAswer=false"></my-modal> -->
     <my-modal :showModal="showSaveImg" :title1="saveImgTitle1" :title2="saveImgTitle2" :imgUrl="saveImgUrl" :btnText="saveImgBtnText" @confirm="showSaveImg=false"></my-modal>
     <canvas canvas-id="myCanvas" :style="{width:width+'px',height:canvasHeight+'px',position:'fixed',top:'9999px'}" ></canvas>
   </div>
@@ -49,28 +49,28 @@ const app = getApp()
 export default {
   data () {
     return {
-      url: 'https://weixin-test.simuwang.com/Public/Image/Weixin/201810/',
+      url: 'https://weixin.simuwang.com/Public/Image/Weixin/201810/',
       width: null, // 手机宽度
       canvasHeight: null, // 设置canvas高度
       tempFilePath: null, // 生成图片的地址
       userUrl: null, // 头像地址
-      finish: false,
-      star: null,
+      finish: false, // 是否分析完成
+      star: null, //等级
       readAswer: false,
-      login: true,
-      show: true,
       //认证模态框内容
       title1: '私募排排网',
-      title2: '为各位用户提供测试题答案',
+      title2: '为注册用户提供测试题答案',
       title3: '合格投资者认证',
       text: '阁下如有意进行私募投资基金投资且满足《私募投资基金监督管理暂行办法》关于“合格投资者”标准之规定，即具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元，且个人金融类资产不低于300万元或者最近三年个人年均收入不低于50万元人民币。请阁下详细阅读本提示，确认自己符合以上规定。',
       btnText: '确认并查看答案',
+      hadGetPhone: false, //是否已经获取过手机号码
       // 保存图片成功模态框
       showSaveImg: false,
       saveImgTitle1: '图片已保存到【相册】',
       saveImgTitle2: '快去分享给好友',
       saveImgUrl: '',
       saveImgBtnText: '我知道了',
+      shareImgUrl: '',
       levelArr: [
         {
           bgImg: 'one-result.jpg',
@@ -82,7 +82,7 @@ export default {
           bgImg: 'two-result.jpg',
           level: '资深韭菜',
           paipai: '别说了，关灯吧！',
-          text: '满仓套牢时的抑郁，空仓等底时的着急，轻仓试探时的迷茫，让你开始怀疑人生。你经常感觉自己是传说中的主力监控，一卖就涨，一买就跌，一进场就千股跌停！在你这里，只有四只股票涨的最好：一是别人买的股票，二是自己刚刚卖掉股票，三看好想买却没买的股票，四打了单没买上的股票！人生很艰难，且行且珍惜！'
+          text: '满仓套牢时的抑郁，空仓等底时的着急，轻仓试探时的迷茫，让你开始怀疑人生。你经常感觉自己是传说中的主力监控，一卖就涨，一买就跌，一进场就千股跌停！在你这里，只有四只股票涨的最好：一别人买的股票，二自己刚刚卖掉的股票，三看好想买却没买的股票，四打了单没买上的股票！人生很艰难，且行且珍惜！'
         },
         {
           bgImg: 'three-result.jpg',
@@ -100,7 +100,7 @@ export default {
           bgImg: 'five-result.jpg',
           level: '股海大神',
           paipai: '无需多言，膜拜大神！',
-          text: '厉害了，想必你在股市已见惯风雨，波澜不惊。已经做到不以涨喜，不以跌悲，手中有股，心中无股！你深知，在A股混，必须练就大心脏，没必要动不动伤春悲秋。毕竟冬寒已经过去一半！还有一半！你是如此淡定，只是有时睡梦中惊醒，眼角是湿的。'
+          text: '厉害了，想必你在股市已见惯风雨，波澜不惊。已经做到不以涨喜，不以跌悲，手中有股，心中无股！你深知，在A股混，必须练就大心脏，没必要动不动伤春悲秋。即使关灯吃面、滴蜡复盘，也是心静如水，炒股纯粹是为了普度市场。你是如此淡定，只是有时睡梦中惊醒，眼角是湿的。'
         }
       ],
       userInfo: {}
@@ -112,10 +112,6 @@ export default {
   },
 
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
     getUserInfo () {
       var _this = this
       wx.getUserInfo({
@@ -135,52 +131,9 @@ export default {
     /**
      * 点击查看题目答案
      */
-    read () {
-      this.readAswer = true
-    },
-    getPhoneNumber (e) {
-      this.readAswer = false
-      const url = '../answer/main'
-      if(e.mp.detail.encryptedData !==undefined){
-        wx.getStorage({
-          key: 'sign',
-          success: function(res) {
-              wx.request({
-                  url: 'https://weixin-test.simuwang.com/gateway/verifyWXUser',
-                  data: {
-                    encryptedData: e.mp.detail.encryptedData,
-                    iv:e.mp.detail.iv,
-                    sign:res.data
-                  },
-                  success:function (params) {
-                    app.sensors.track('SIGNUP',{
-                        $latest_utm_sign: '20005',
-                        $latest_utm_platform: 'xcx'
-                    })
-                  },
-                  fail: function (err) {
-                  }
-              })
-          } 
-        })
+    goToAnswerPage () {
+        const url = '../answer/main'
         wx.navigateTo({ url })
-      }
-    },
-    /**
-     * 确定同意私募基金协议
-     */
-    confirm () {
-      this.readAswer = false
-      this.login = false
-    },
-    cancel () {
-      this.login = true
-    },
-    /**
-     * 确认授权
-     */
-    authorize () {
-      this.login = true
     },
     /**
      * 获取屏幕宽度
@@ -319,7 +272,8 @@ export default {
   onLoad (option) {
     const arr = ['save-one.jpg', 'save-two.png', 'save-three.jpg', 'save-four.jpg', 'save-five.jpg']
     this.star = option.star - 1
-    this.saveImgUrl = this.url + arr[this.star]
+    this.saveImgUrl = this.url + arr[this.star],
+    this.shareImgUrl = this.url + 'share' + option.star + '.jpg'
   },
   /**
    * 分享
@@ -327,6 +281,7 @@ export default {
   onShareAppMessage (res) {
     return {
       title: '这是我的投资测试结果，你也来测下属于你的段位吧',
+      imageUrl:this.shareImgUrl,
       path: 'pages/share/main?utm_source=20005&utm_platform=xcx&star='+this.star+'&avatarUrl='+this.userInfo.avatarUrl+'&nickName='+this.userInfo.nickName
     }
   },
@@ -352,9 +307,12 @@ export default {
 
 <style scoped>
     .container,.main,.question-bg{
-        height: 100%;
         width: 100%;
         position: relative;
+    }
+    .container{
+        height: 2550rpx;
+        overflow: hidden;
     }
     .loading-content{
         width: 350rpx;
@@ -387,9 +345,10 @@ export default {
         margin-left:-144rpx;
     }
     .result-bg{
+      position: relative;
       width: 100%;
-      margin-top: -100rpx;
-      /* height: 2330rpx !important; */
+      height:1298px;
+      top: -100rpx;
     }
     .result{
       position: absolute;
@@ -400,12 +359,12 @@ export default {
     .result-text-content{
       position: relative;;
       width: 656rpx;
-      height: 856rpx;
+      height: 770rpx;
       border:2rpx dashed #e1524c;
       border-radius: 20rpx;
       box-sizing: border-box;
-      margin-left:47rpx;
-      margin-top: -70rpx;
+      left: 47rpx;
+      top: -70rpx;
       padding: 27rpx;
       box-shadow: 0 0 0 7rpx #e1524c inset,0 0 0 7rpx #e1524c
     }
@@ -434,29 +393,43 @@ export default {
       line-height: 160rpx;
       background: url('http://111.230.169.178/img/leval-bg.png') center no-repeat;
       background-size: 220rpx;
+      font-size:35rpx;
+      font-weight:bold;
     }
     .paipaijun{
       margin: 20rpx 0;
       font-weight: bold
     }
     .result .flex-box{
-      justify-content: space-around
+      position: fixed;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      justify-content: space-around;
+      background: white;
+      z-index: 1000;
     }
     .save-img,.share{
-      height: 74rpx;
-      line-height: 74rpx;
-      border-radius: 40rpx;
+      width: 50%;
+      height: 120rpx;
+      line-height: 120rpx;
+      margin: 0;
+      border-radius: 0rpx;
       color: #ffffff;
+      font-size: 38rpx;
     }
     .save-img{
-      width: 248rpx;
-      background: #e22716
+      color: #48070d;
+      border-radius: 0rpx; 
+      background: -moz-linear-gradient(left,#f3cfc1,#f9e6df);
+      background: -webkit-linear-gradient(left,#f3cfc1,#f9e6df);
+      background: -o-linear-gradient(left,#f3cfc1,#f9e6df);
     }
     .share{
-      width: 270rpx;
-      background: -moz-linear-gradient(#ea7c1a,#b93d21);
-      background: -webkit-linear-gradient(#ea7c1a,#b93d21);
-      background: -o-linear-gradient(#ea7c1a,#b93d21);
+      border-radius: 0rpx;
+      background: -moz-linear-gradient(left,#eb2232,#af1a16);
+      background: -webkit-linear-gradient(left,#eb2232,#af1a16);
+      background: -o-linear-gradient(left,#eb2232,#af1a16);
     }
     .read-answer{
       width: 656rpx;
@@ -465,7 +438,6 @@ export default {
       border-radius: 20rpx;
       box-sizing: border-box;
       margin-left:47rpx;
-      margin-top: 47rpx;
       padding: 34rpx;
       position: relative;
       box-shadow: 0 0 0 7rpx #e1524c inset,0 0 0 7rpx #e1524c
@@ -502,5 +474,13 @@ export default {
         text-align: center;
         color: #282c38;
         font-size: 32rpx;
+    }
+    button::after {
+        border-radius: 0;
+    }
+    .footer-img{
+        width: 100%;
+        position:relative;
+        top:-220px
     }
 </style>

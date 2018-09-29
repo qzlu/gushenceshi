@@ -30,7 +30,7 @@
 export default {
   data () {
     return {
-      url: 'https://weixin-test.simuwang.com/Public/Image/Weixin/201810/',
+      url: 'https://weixin.simuwang.com/Public/Image/Weixin/201810/',
       star: null,
       avatarUrl: '', // 头像
       nickName: '', // 用户名
@@ -156,6 +156,8 @@ export default {
       line-height: 160rpx;
       background: url('http://111.230.169.178/img/leval-bg.png') center no-repeat;
       background-size: 220rpx;
+      font-size:35rpx;
+      font-weight:bold;
     }
     .paipaijun{
       margin: 20rpx 0;
@@ -170,7 +172,8 @@ export default {
       line-height: 74rpx;
       border-radius: 40rpx;
       color: #ffffff;
-      background: #e22716
+      background: #e22716;
+      font-size: 32rpx;
     }
     .margin-top{
         margin-top: 74rpx;
