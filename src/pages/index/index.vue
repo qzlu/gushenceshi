@@ -19,6 +19,7 @@
 
 <script>
 const app = getApp()
+import { sa } from '../../utils/sensorsdata'
 export default {
   data () {
     return {
@@ -75,16 +76,13 @@ export default {
                   data: {
                     encryptedData: e.mp.detail.encryptedData,
                     iv:e.mp.detail.iv,
-                    sign:res.data
+                    sign:res.data,
+                    source:20005
                   },
                   success:function (params) {
-                    if(params.statusCode == 404){
-                        app.sensors.track('SignUp',{
-                            $latest_utm_sign: '20005',
-                            $latest_utm_platform: 'xcx'
-                        })
-                    }
                     if(params.data.success){
+                        sa.login(params.data.userid)
+                        sa.init()
                         app.sensors.track('SignUp',{
                             $latest_utm_sign: '20005',
                             $latest_utm_platform: 'xcx'
@@ -107,24 +105,28 @@ export default {
     // 注册事件公共属性。  
     app.sensors.registerApp({
         PlatformType: '小程序',
-        VisitorIdentity: '用户'
+        VisitorIdentity: '用户',
+        xcx_type:'股民段位测一测'
     });
     //神策统计添加自定义属性
     app.sensors.para.autoTrack.appLaunch={
       $latest_utm_sign: '20005',
       $latest_utm_platform: 'xcx',
       PlatformType: '小程序',
-      VisitorIdentity: '用户'
+      VisitorIdentity: '用户',
+      xcx_type:'股民段位测一测'
     }
     app.sensors.para.autoTrack.appShow={
       $latest_utm_sign: '20005',
       $latest_utm_platform: 'xcx',
       PlatformType: '小程序',
-      VisitorIdentity: '用户'
+      VisitorIdentity: '用户',
+      xcx_type:'股民段位测一测'
     }
     app.sensors.para.autoTrack.pageShow={
       $latest_utm_sign: '20005',
-      $latest_utm_platform: 'xcx'
+      $latest_utm_platform: 'xcx',
+      xcx_type:'股民段位测一测'
     }
 
   },
